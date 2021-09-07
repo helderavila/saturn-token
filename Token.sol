@@ -39,5 +39,15 @@ contract Token {
         allowance[msg.sender][_spender] = _value;
         emit Approval(msg.sender, _spender, _value);
         return true;
-    } 
+    }
+    
+    function transferFrom(address _from, address _to, uint256 _value) external returns (bool) {
+        require(_value <= balanceOf[_from]);
+        require(_value <= allowance[_from][msg.sender]);
+        allowance[_from][msg.sender] = allowance[_from][msg.sender] - (_value);
+        _transfer(_from, _to, _value);
+        return true;
+    }
+    
+    
 }
